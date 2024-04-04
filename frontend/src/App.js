@@ -5,6 +5,9 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [postName, setPostName] = useState('');
   const [description, setDescription] = useState('');
+  const [editIndex, setEditIndex] = useState(null);
+  const [editPostName, setEditPostName] = useState('');
+  const [editDescription, setEditDescription] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -12,6 +15,20 @@ function App() {
     setPosts([...posts, newPost]);
     setPostName('');
     setDescription('');
+  };
+
+  const handleEdit = (index) => {
+    setEditIndex(index);
+    setEditPostName(posts[index].postName);
+    setEditDescription(posts[index].description);
+  };
+
+  const handleUpdate = (event) => {
+    event.preventDefault();
+    const updatedPosts = [...posts];
+    updatedPosts[editIndex] = { postName: editPostName, description: editDescription };
+    setPosts(updatedPosts);
+    setEditIndex(null);
   };
 
   const handleDelete = (index) => {
@@ -50,9 +67,37 @@ function App() {
         <ul>
           {posts.map((post, index) => (
             <li key={index}>
-              <h3>{post.postName}</h3>
-              <p>{post.description}</p>
-              <button onClick={() => handleDelete(index)}>Delete</button>
+              {editIndex === index ? (
+                <form onSubmit={handleUpdate}>
+                  <div className="form-group">
+                    <label htmlFor="editPostName">Edit Post Name:</label>
+                    <input
+                      type="text"
+                      id="editPostName"
+                      value={editPostName}
+                      onChange={(e) => setEditPostName(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="editDescription">Edit Description:</label>
+                    <textarea
+                      id="editDescription"
+                      value={editDescription}
+                      onChange={(e) => setEditDescription(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <button type="submit">Update</button>
+                </form>
+              ) : (
+                <>
+                  <h3>{post.postName}</h3>
+                  <p>{post.description}</p>
+                  <button onClick={() => handleEdit(index)}>Edit</button>
+                  <button onClick={() => handleDelete(index)}>Delete</button>
+                </>
+              )}
             </li>
           ))}
         </ul>
