@@ -31,6 +31,12 @@ function App() {
     setEditIndex(null);
   };
 
+  const handleCancelEdit = () => {
+    setEditIndex(null);
+    setEditPostName('');
+    setEditDescription('');
+  };
+
   const handleDelete = (index) => {
     const updatedPosts = [...posts];
     updatedPosts.splice(index, 1);
@@ -89,6 +95,7 @@ function App() {
                     />
                   </div>
                   <button type="submit">Update</button>
+                  <button type="button" onClick={handleCancelEdit}>Cancel</button>
                 </form>
               ) : (
                 <>
