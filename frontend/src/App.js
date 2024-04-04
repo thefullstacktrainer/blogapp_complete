@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [posts, setPosts] = useState([]);
   const [postName, setPostName] = useState('');
   const [description, setDescription] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Here you can handle form submission, e.g., send data to backend or perform any necessary actions
-    console.log("Submitted: ", { postName, description });
-    // You can also reset the form fields after submission if needed
+    const newPost = { postName, description };
+    setPosts([...posts, newPost]);
     setPostName('');
     setDescription('');
   };
@@ -39,6 +39,17 @@ function App() {
         </div>
         <button type="submit">Submit</button>
       </form>
+      <div className="post-list">
+        <h2>Posts</h2>
+        <ul>
+          {posts.map((post, index) => (
+            <li key={index}>
+              <h3>{post.postName}</h3>
+              <p>{post.description}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
