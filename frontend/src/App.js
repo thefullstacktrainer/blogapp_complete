@@ -14,6 +14,12 @@ function App() {
     setDescription('');
   };
 
+  const handleDelete = (index) => {
+    const updatedPosts = [...posts];
+    updatedPosts.splice(index, 1);
+    setPosts(updatedPosts);
+  };
+
   return (
     <div className="App">
       <h1>Create a New Blog Post</h1>
@@ -46,6 +52,7 @@ function App() {
             <li key={index}>
               <h3>{post.postName}</h3>
               <p>{post.description}</p>
+              <button onClick={() => handleDelete(index)}>Delete</button>
             </li>
           ))}
         </ul>
