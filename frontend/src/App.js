@@ -34,7 +34,7 @@ function App() {
 
       // Log the response data (you can handle it as needed)
       console.log('New post created:', response.data);
-
+      setPosts([...posts, response.data]);
       // Clear input fields after successful creation
       setPostName('');
       setDescription('');
@@ -43,19 +43,40 @@ function App() {
     }
   };
 
-  const handleEdit = (index) => {
-    setEditIndex(index);
-    setEditPostName(posts[index].postName);
-    setEditDescription(posts[index].description);
+  const handleEdit = (postId) => {
+    const postToEdit = posts.find(post => post.post_id === postId);
+    console.log(postToEdit);
+    if (postToEdit) {
+      setEditIndex(postId);
+      setEditPostName(postToEdit.postName);
+      setEditDescription(postToEdit.description);
+    }
   };
 
-  const handleUpdate = (event) => {
-    event.preventDefault();
-    const updatedPosts = [...posts];
-    updatedPosts[editIndex] = { postName: editPostName, description: editDescription };
-    setPosts(updatedPosts);
-    setEditIndex(null);
+
+  const handleUpdate = async () => {
+    try {
+      await axios.put(`http://localhost:4000/api/posts/${editIndex}`, {
+        postName: editPostName,
+        description: editDescription
+      });
+      // Update the local state with the edited post details
+      const updatedPosts = [...posts];
+      updatedPosts[editIndex] = {
+        ...updatedPosts[editIndex],
+        postName: editPostName,
+        description: editDescription
+      };
+      setPosts(updatedPosts);
+      // Reset edit state
+      setEditIndex(null);
+      setEditPostName('');
+      setEditDescription('');
+    } catch (error) {
+      console.error('Error updating post:', error);
+    }
   };
+
 
   const handleCancelEdit = () => {
     setEditIndex(null);
@@ -104,8 +125,8 @@ function App() {
         <h2>Posts</h2>
         <ul>
           {posts.map((post, index) => (
-            <li key={index}>
-              {editIndex === index ? (
+            <li key={post.post_id}>
+              {editIndex === post.post_id ? (
                 <form onSubmit={handleUpdate}>
                   <div className="form-group">
                     <label htmlFor="editPostName">Edit Post Name:</label>
@@ -133,8 +154,8 @@ function App() {
                 <>
                   <h3>{post.postName}</h3>
                   <p>{post.description}</p>
-                  <button onClick={() => handleEdit(index)}>Edit</button>
-                  <button onClick={() => handleDelete(index)}>Delete</button>
+                  <button onClick={() => handleEdit(post.post_id)}>Edit</button>
+                  <button onClick={() => handleDelete(post.post_id)}>Delete</button>
                 </>
               )}
             </li>
