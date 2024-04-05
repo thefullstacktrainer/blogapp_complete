@@ -57,11 +57,19 @@ app.get('/api/posts', (req, res) => {
 // Get a single post by ID
 app.get('/api/posts/:id', (req, res) => {
     const postId = parseInt(req.params.id);
-    const post = posts.find(post => post.id === postId);
-    if (!post) {
-        return res.status(404).json({ message: 'Post not found' });
-    }
-    res.json(post);
+    const sql = 'SELECT * FROM posts WHERE post_id = ?';
+    connection.query(sql, [postId], (err, results) => {
+        if (err) {
+            console.error('Error getting post:', err);
+            res.status(500).json({ message: 'Internal Server Error' });
+            return;
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+        const post = results[0];
+        res.json(post);
+    });
 });
 
 // Update a post by ID
