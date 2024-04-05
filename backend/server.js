@@ -30,9 +30,15 @@ connection.connect((err) => {
 // Create a new post
 app.post('/api/posts', (req, res) => {
     const { postName, description } = req.body;
-    const newPost = { id: Date.now(), postName, description };
-    posts.push(newPost);
-    res.status(201).json(newPost);
+    const sql = 'INSERT INTO posts (postName, description) VALUES (?, ?)';
+    connection.query(sql, [postName, description], (err, result) => {
+        if (err) {
+            console.error('Error creating post:', err);
+            res.status(500).json({ message: 'Internal Server Error' });
+            return;
+        }
+        res.status(201).json({ id: result.insertId, postName, description });
+    });
 });
 
 // Get all posts
