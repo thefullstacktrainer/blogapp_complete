@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './App.css';
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -9,6 +9,19 @@ function App() {
   const [editIndex, setEditIndex] = useState(null);
   const [editPostName, setEditPostName] = useState('');
   const [editDescription, setEditDescription] = useState('');
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/api/posts');
+      setPosts(response.data);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
