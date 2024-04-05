@@ -90,12 +90,15 @@ app.put('/api/posts/:id', (req, res) => {
 // Delete a post by ID
 app.delete('/api/posts/:id', (req, res) => {
     const postId = parseInt(req.params.id);
-    const postIndex = posts.findIndex(post => post.id === postId);
-    if (postIndex === -1) {
-        return res.status(404).json({ message: 'Post not found' });
-    }
-    posts.splice(postIndex, 1);
-    res.json({ message: 'Post deleted successfully' });
+    const sql = 'DELETE FROM posts WHERE id = ?';
+    connection.query(sql, [postId], (err, result) => {
+        if (err) {
+            console.error('Error deleting post:', err);
+            res.status(500).json({ message: 'Internal Server Error' });
+            return;
+        }
+        res.json({ message: 'Post deleted successfully' });
+    });
 });
 
 app.listen(PORT, () => {
