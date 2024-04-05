@@ -18,6 +18,11 @@ app.post('/api/posts', (req, res) => {
     res.status(201).json(newPost);
 });
 
+// Get all posts
+app.get('/api/posts', (req, res) => {
+    res.json(posts);
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
