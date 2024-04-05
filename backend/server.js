@@ -90,7 +90,7 @@ app.put('/api/posts/:id', (req, res) => {
 // Delete a post by ID
 app.delete('/api/posts/:id', (req, res) => {
     const postId = parseInt(req.params.id);
-    const sql = 'DELETE FROM posts WHERE id = ?';
+    const sql = 'DELETE FROM posts WHERE post_id = ?';
     connection.query(sql, [postId], (err, result) => {
         if (err) {
             console.error('Error deleting post:', err);
