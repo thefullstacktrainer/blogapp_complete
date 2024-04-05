@@ -43,7 +43,15 @@ app.post('/api/posts', (req, res) => {
 
 // Get all posts
 app.get('/api/posts', (req, res) => {
-    res.json(posts);
+    const sql = 'SELECT * FROM posts';
+    connection.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error getting posts:', err);
+            res.status(500).json({ message: 'Internal Server Error' });
+            return;
+        }
+        res.json(results);
+    });
 });
 
 // Get a single post by ID
