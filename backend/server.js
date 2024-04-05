@@ -99,7 +99,7 @@ app.delete('/api/posts/:id', (req, res) => {
             res.status(500).json({ message: 'Internal Server Error' });
             return;
         }
-        res.json({ message: 'Post deleted successfully' });
+        res.json({ post_id: postId, message: 'Post deleted successfully' });
     });
 });
 
