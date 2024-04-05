@@ -45,6 +45,17 @@ app.put('/api/posts/:id', (req, res) => {
     res.json(posts[postIndex]);
 });
 
+// Delete a post by ID
+app.delete('/api/posts/:id', (req, res) => {
+    const postId = parseInt(req.params.id);
+    const postIndex = posts.findIndex(post => post.id === postId);
+    if (postIndex === -1) {
+        return res.status(404).json({ message: 'Post not found' });
+    }
+    posts.splice(postIndex, 1);
+    res.json({ message: 'Post deleted successfully' });
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

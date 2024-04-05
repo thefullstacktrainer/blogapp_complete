@@ -59,3 +59,15 @@ Status: 200 OK
 Size: 84 Bytes
 Time: 7 ms
 
+5. http://localhost:4000/api/posts/1712298229583 (DELETE API)
+Response =>
+{
+  "message": "Post deleted successfully"
+}
+
+6. http://localhost:4000/api/posts/1712298229583 (DELETE API called again) 
+Response =>
+{
+  "message": "Post not found"
+}
+
