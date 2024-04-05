@@ -71,3 +71,19 @@ Response =>
   "message": "Post not found"
 }
 
+
+npm install mysql
+
+CREATE USER 'blog_user'@'localhost' IDENTIFIED WITH mysql_native_password BY  'password123';
+
+CREATE TABLE blog_db.posts (
+    post_id INT AUTO_INCREMENT PRIMARY KEY,
+    postName VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+GRANT ALL PRIVILEGES ON blog_db.* TO 'blog_user'@'localhost';
+
+FLUSH PRIVILEGES;
+

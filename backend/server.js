@@ -10,6 +10,23 @@ app.get("/", (req, res) => res.send("Welcome to blogpost"));
 
 let posts = [];
 
+const mysql = require('mysql');
+
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'blog_user',
+    password: 'password123',
+    database: 'blog_db'
+});
+
+connection.connect((err) => {
+    if (err) {
+        console.error('Error connecting to database:', err);
+        return;
+    }
+    console.log('Connected to database');
+});
+
 // Create a new post
 app.post('/api/posts', (req, res) => {
     const { postName, description } = req.body;
