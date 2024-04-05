@@ -10,6 +10,8 @@ http://localhost:4000/ (Will give response as Welcome to blogpost)
 
 added post api to create posts
 
+Test in Thunderclient/Postman
+
 1. http://localhost:4000/api/posts (POST API)
 Body => { "postName": "Docker", "description": "This is about Docker" }
 Response => {
@@ -44,3 +46,16 @@ Response =>
 Status: 200 OK
 Size: 77 Bytes
 Time: 5 ms
+
+4. http://localhost:4000/api/posts/1712298229583 (PUT API)
+Body => {"postName":"Docker","description":"This is about Docker Updated"}
+Response =>
+{
+  "id": 1712298229583,
+  "postName": "Docker",
+  "description": "This is about Docker Updated"
+}
+Status: 200 OK
+Size: 84 Bytes
+Time: 7 ms
+

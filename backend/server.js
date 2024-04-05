@@ -33,6 +33,18 @@ app.get('/api/posts/:id', (req, res) => {
     res.json(post);
 });
 
+// Update a post by ID
+app.put('/api/posts/:id', (req, res) => {
+    const postId = parseInt(req.params.id);
+    const { postName, description } = req.body;
+    const postIndex = posts.findIndex(post => post.id === postId);
+    if (postIndex === -1) {
+        return res.status(404).json({ message: 'Post not found' });
+    }
+    posts[postIndex] = { id: postId, postName, description };
+    res.json(posts[postIndex]);
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
