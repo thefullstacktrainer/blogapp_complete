@@ -39,7 +39,7 @@ app.post('/api/posts', (req, res) => {
             res.status(500).json({ message: 'Internal Server Error' });
             return;
         }
-        res.status(201).json({ id: result.insertId, postName, description });
+        res.status(201).json({ post_id: result.insertId, postName, description });
     });
 });
 
@@ -85,7 +85,7 @@ app.put('/api/posts/:id', (req, res) => {
             res.status(500).json({ message: 'Internal Server Error' });
             return;
         }
-        res.json({ id: postId, postName, description });
+        res.json({ post_id: postId, postName, description });
     });
 });
 
