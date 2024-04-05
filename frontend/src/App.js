@@ -63,11 +63,7 @@ function App() {
     setEditDescription('');
   };
 
-  const handleDelete = (index) => {
-    const updatedPosts = [...posts];
-    updatedPosts.splice(index, 1);
-    setPosts(updatedPosts);
-  };
+
   const handleDelete = async (postId) => {
     try {
       await axios.delete(`http://localhost:4000/api/posts/${postId}`);
