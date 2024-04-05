@@ -76,7 +76,7 @@ app.get('/api/posts/:id', (req, res) => {
 app.put('/api/posts/:id', (req, res) => {
     const postId = parseInt(req.params.id);
     const { postName, description } = req.body;
-    const sql = 'UPDATE posts SET postName = ?, description = ? WHERE id = ?';
+    const sql = 'UPDATE posts SET postName = ?, description = ? WHERE post_id = ?';
     connection.query(sql, [postName, description, postId], (err, result) => {
         if (err) {
             console.error('Error updating post:', err);
