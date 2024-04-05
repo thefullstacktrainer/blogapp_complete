@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import axios from 'axios';
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -9,12 +10,24 @@ function App() {
   const [editPostName, setEditPostName] = useState('');
   const [editDescription, setEditDescription] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const newPost = { postName, description };
-    setPosts([...posts, newPost]);
-    setPostName('');
-    setDescription('');
+    try {
+      // Make a POST request to create a new post
+      const response = await axios.post('http://localhost:4000/api/posts', {
+        postName,
+        description
+      });
+
+      // Log the response data (you can handle it as needed)
+      console.log('New post created:', response.data);
+
+      // Clear input fields after successful creation
+      setPostName('');
+      setDescription('');
+    } catch (error) {
+      console.error('Error creating post:', error);
+    }
   };
 
   const handleEdit = (index) => {
