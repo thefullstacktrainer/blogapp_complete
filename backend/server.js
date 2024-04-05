@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors'); // Import the cors module
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(bodyParser.json());
+app.use(cors()); // Use the cors middleware to allow all origins
 
 app.get("/", (req, res) => res.send("Welcome to blogpost"));
 

@@ -87,3 +87,5 @@ GRANT ALL PRIVILEGES ON blog_db.* TO 'blog_user'@'localhost';
 
 FLUSH PRIVILEGES;
 
+npm install cors
+
