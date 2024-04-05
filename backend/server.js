@@ -76,12 +76,15 @@ app.get('/api/posts/:id', (req, res) => {
 app.put('/api/posts/:id', (req, res) => {
     const postId = parseInt(req.params.id);
     const { postName, description } = req.body;
-    const postIndex = posts.findIndex(post => post.id === postId);
-    if (postIndex === -1) {
-        return res.status(404).json({ message: 'Post not found' });
-    }
-    posts[postIndex] = { id: postId, postName, description };
-    res.json(posts[postIndex]);
+    const sql = 'UPDATE posts SET postName = ?, description = ? WHERE id = ?';
+    connection.query(sql, [postName, description, postId], (err, result) => {
+        if (err) {
+            console.error('Error updating post:', err);
+            res.status(500).json({ message: 'Internal Server Error' });
+            return;
+        }
+        res.json({ id: postId, postName, description });
+    });
 });
 
 // Delete a post by ID
