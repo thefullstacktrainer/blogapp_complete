@@ -68,6 +68,16 @@ function App() {
     updatedPosts.splice(index, 1);
     setPosts(updatedPosts);
   };
+  const handleDelete = async (postId) => {
+    try {
+      await axios.delete(`http://localhost:4000/api/posts/${postId}`);
+      // Filter out the deleted post from the state
+      setPosts(posts.filter(post => post.post_id !== postId));
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
+  };
+
 
   return (
     <div className="App">
