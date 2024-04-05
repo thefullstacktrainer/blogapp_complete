@@ -13,7 +13,7 @@ added post api to create posts
 1. http://localhost:4000/api/posts (POST API)
 Body => { "postName": "Docker", "description": "This is about Docker" }
 Response => {
-  "id": 1712298017716,
+  "id": 1712298229583,
   "postName": "Docker",
   "description": "This is about Docker"
 }
@@ -33,3 +33,14 @@ Response =>
 Status: 200 OK
 Size: 79 Bytes
 Time: 7 ms
+
+3. http://localhost:4000/api/posts/1712298229583 (GET API)
+Response =>
+{
+  "id": 1712298229583,
+  "postName": "Docker",
+  "description": "This is about Docker"
+}
+Status: 200 OK
+Size: 77 Bytes
+Time: 5 ms
