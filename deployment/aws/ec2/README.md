@@ -28,3 +28,27 @@ Dont do (sudo ufw allow 'Nginx HTTP')
 systemctl status nginx
 
 
+3. Clone git repo into AWS EC2
+
+Run below commands in terminal after logging in using ssh 
+
+pwd
+
+/home/ubuntu
+
+mkdir blog_app
+
+ls 
+
+cd blog_app
+
+mkdir backend_code
+
+cd backend_code
+
+copy your git ssh key to EC2
+
+git clone git@github.com:thefullstacktrainer/blogapp_complete.git
+
+cd backend
+
