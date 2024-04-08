@@ -14,7 +14,7 @@ let posts = [];
 // Create a new post
 app.post('/api/posts', (req, res) => {
     const { postName, description } = req.body;
-    const newPost = { id: Date.now(), postName, description };
+    const newPost = { post_id: Date.now(), postName, description };
     posts.push(newPost);
     res.status(201).json(newPost);
 });
@@ -24,10 +24,10 @@ app.get('/api/posts', (req, res) => {
     res.json(posts);
 });
 
-// Get a single post by ID
-app.get('/api/posts/:id', (req, res) => {
-    const postId = parseInt(req.params.id);
-    const post = posts.find(post => post.id === postId);
+// Get a single post by post_id
+app.get('/api/posts/:post_id', (req, res) => {
+    const postId = parseInt(req.params.post_id);
+    const post = posts.find(post => post.post_id === postId);
     if (!post) {
         return res.status(404).json({ message: 'Post not found' });
     }
@@ -35,21 +35,21 @@ app.get('/api/posts/:id', (req, res) => {
 });
 
 // Update a post by ID
-app.put('/api/posts/:id', (req, res) => {
-    const postId = parseInt(req.params.id);
+app.put('/api/posts/:post_id', (req, res) => {
+    const postId = parseInt(req.params.post_id);
     const { postName, description } = req.body;
-    const postIndex = posts.findIndex(post => post.id === postId);
+    const postIndex = posts.findIndex(post => post.post_id === postId);
     if (postIndex === -1) {
         return res.status(404).json({ message: 'Post not found' });
     }
-    posts[postIndex] = { id: postId, postName, description };
+    posts[postIndex] = { post_id: postId, postName, description };
     res.json(posts[postIndex]);
 });
 
 // Delete a post by ID
-app.delete('/api/posts/:id', (req, res) => {
-    const postId = parseInt(req.params.id);
-    const postIndex = posts.findIndex(post => post.id === postId);
+app.delete('/api/posts/:post_id', (req, res) => {
+    const postId = parseInt(req.params.post_id);
+    const postIndex = posts.findIndex(post => post.post_id === postId);
     if (postIndex === -1) {
         return res.status(404).json({ message: 'Post not found' });
     }
