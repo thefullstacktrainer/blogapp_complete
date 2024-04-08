@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config(); // Load environment variables from .env file
-
+const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 4000;
 const { Pool } = require('pg');
@@ -45,7 +45,7 @@ connection.query(`
     }
 });
 app.use(bodyParser.json());
-
+app.use(cors());
 app.get("/", (req, res) => res.send("Welcome to blogpost"));
 
 // Create a new post
