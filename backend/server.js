@@ -51,7 +51,7 @@ app.get("/", (req, res) => res.send("Welcome to blogpost"));
 // Create a new post
 app.post('/api/posts', (req, res) => {
     const { postName, description } = req.body;
-    const query = 'INSERT INTO posts (postName, description) VALUES ($1, $2) RETURNING *';
+    const query = 'INSERT INTO posts (postname, description) VALUES ($1, $2) RETURNING *';
     const values = [postName, description];
     connection.query(query, values, (err, result) => {
         if (err) {
@@ -96,7 +96,7 @@ app.get('/api/posts/:id', (req, res) => {
 app.put('/api/posts/:id', (req, res) => {
     const postId = parseInt(req.params.id);
     const { postName, description } = req.body;
-    const query = 'UPDATE posts SET postName = $1, description = $2 WHERE post_id = $3 RETURNING *';
+    const query = 'UPDATE posts SET postname = $1, description = $2 WHERE post_id = $3 RETURNING *';
     const values = [postName, description, postId];
     connection.query(query, values, (err, result) => {
         if (err) {
