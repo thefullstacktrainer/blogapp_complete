@@ -48,7 +48,7 @@ function App() {
     console.log(postToEdit);
     if (postToEdit) {
       setEditIndex(postId);
-      setEditPostName(postToEdit.postName);
+      setEditPostName(postToEdit.postname);
       setEditDescription(postToEdit.description);
     }
   };
@@ -152,7 +152,7 @@ function App() {
                 </form>
               ) : (
                 <>
-                  <h3>{post.postName}</h3>
+                  <h3>{post.postname}</h3>
                   <p>{post.description}</p>
                   <button onClick={() => handleEdit(post.post_id)}>Edit</button>
                   <button onClick={() => handleDelete(post.post_id)}>Delete</button>
