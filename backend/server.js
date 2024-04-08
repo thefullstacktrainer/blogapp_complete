@@ -44,8 +44,8 @@ connection.query(`
         console.log('Table created successfully');
     }
 });
-app.use(bodyParser.json());
 app.use(cors());
+app.use(bodyParser.json());
 app.get("/", (req, res) => res.send("Welcome to blogpost"));
 
 // Create a new post
