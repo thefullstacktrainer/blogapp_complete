@@ -1,10 +1,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+ be_render
+
+const cors = require('cors')
+
 require('dotenv').config(); // Load environment variables from .env file
 const cors = require('cors');
+ be_lesson14_add_postgres
 const app = express();
 const PORT = process.env.PORT || 4000;
 const { Pool } = require('pg');
+
+be_render
+app.use(bodyParser.json());
+app.use(cors());
+app.get("/", (req, res) => res.send("Welcome to blogpost"));
 
 const connection = new Pool({
     user: process.env.DB_USER,
@@ -29,6 +39,7 @@ connection.connect()
     .catch((err) => {
         console.error('Error connecting to PostgreSQL database', err);
     });
+be_lesson14_add_postgres
 
 connection.query(`
     CREATE TABLE IF NOT EXISTS posts (
@@ -51,6 +62,11 @@ app.get("/", (req, res) => res.send("Welcome to blogpost"));
 // Create a new post
 app.post('/api/posts', (req, res) => {
     const { postName, description } = req.body;
+ be_render
+    const newPost = { post_id: Date.now(), postName, description };
+    posts.push(newPost);
+    res.status(201).json(newPost);
+
     const query = 'INSERT INTO posts (postname, description) VALUES ($1, $2) RETURNING *';
     const values = [postName, description];
     connection.query(query, values, (err, result) => {
@@ -61,6 +77,7 @@ app.post('/api/posts', (req, res) => {
         }
         res.status(201).json(result.rows[0]);
     });
+ be_lesson14_add_postgres
 });
 
 // Get all posts
@@ -74,6 +91,16 @@ app.get('/api/posts', (req, res) => {
         res.json(results.rows);
     });
 });
+
+ be_render
+// Get a single post by post_id
+app.get('/api/posts/:post_id', (req, res) => {
+    const postId = parseInt(req.params.post_id);
+    const post = posts.find(post => post.post_id === postId);
+    if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+    }
+    res.json(post);
 
 // Get a single post by ID
 app.get('/api/posts/:id', (req, res) => {
@@ -90,12 +117,32 @@ app.get('/api/posts/:id', (req, res) => {
         const post = results.rows[0];
         res.json(post);
     });
+ be_lesson14_add_postgres
 });
 
 // Update a post by ID
-app.put('/api/posts/:id', (req, res) => {
-    const postId = parseInt(req.params.id);
+app.put('/api/posts/:post_id', (req, res) => {
+    const postId = parseInt(req.params.post_id);
     const { postName, description } = req.body;
+ be_render
+    const postIndex = posts.findIndex(post => post.post_id === postId);
+    if (postIndex === -1) {
+        return res.status(404).json({ message: 'Post not found' });
+    }
+    posts[postIndex] = { post_id: postId, postName, description };
+    res.json(posts[postIndex]);
+});
+
+// Delete a post by ID
+app.delete('/api/posts/:post_id', (req, res) => {
+    const postId = parseInt(req.params.post_id);
+    const postIndex = posts.findIndex(post => post.post_id === postId);
+    if (postIndex === -1) {
+        return res.status(404).json({ message: 'Post not found' });
+    }
+    posts.splice(postIndex, 1);
+    res.json({ message: 'Post deleted successfully' });
+
     const query = 'UPDATE posts SET postname = $1, description = $2 WHERE post_id = $3 RETURNING *';
     const values = [postName, description, postId];
     connection.query(query, values, (err, result) => {
@@ -119,6 +166,7 @@ app.delete('/api/posts/:id', (req, res) => {
         }
         res.json({ post_id: postId, message: 'Post deleted successfully' });
     });
+ be_lesson14_add_postgres
 });
 
 app.listen(PORT, () => {
