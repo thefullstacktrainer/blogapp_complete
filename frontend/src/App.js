@@ -16,7 +16,7 @@ function App() {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('https://blogapp-complete-be-lucky.onrender.com/api/posts');
+      const response = await axios.get('https://blogapp-complete-gauri-be.onrender.com/api/posts');
       setPosts(response.data);
     } catch (error) {
       console.error('Error fetching posts:', error);
@@ -27,7 +27,7 @@ function App() {
     event.preventDefault();
     try {
       // Make a POST request to create a new post
-      const response = await axios.post('https://blogapp-complete-be-lucky.onrender.com/api/posts', {
+      const response = await axios.post('https://blogapp-complete-gauri-be.onrender.com/api/posts', {
         postName,
         description
       });
@@ -56,7 +56,7 @@ function App() {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`https://blogapp-complete-be-lucky.onrender.com/api/posts/${editIndex}`, {
+      await axios.put(`https://blogapp-complete-gauri-be.onrender.com/api/posts/${editIndex}`, {
         postName: editPostName,
         description: editDescription
       });
@@ -87,7 +87,7 @@ function App() {
 
   const handleDelete = async (postId) => {
     try {
-      await axios.delete(`https://blogapp-complete-be-lucky.onrender.com/api/posts/${postId}`);
+      await axios.delete(`https://blogapp-complete-gauri-be.onrender.com/api/posts/${postId}`);
       // Filter out the deleted post from the state
       setPosts(posts.filter(post => post.post_id !== postId));
     } catch (error) {
